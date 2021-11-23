@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SerialPort.iml" filepath="$PROJECT_DIR$/.idea/modules/SerialPort.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SerialPort.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SerialPort.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mylibrary/SerialPort.mylibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/mylibrary/SerialPort.mylibrary.iml" />
+    </modules>
+  </component>
+</project>
