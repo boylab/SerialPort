@@ -30,8 +30,8 @@ public class ModbusActivity extends AppCompatActivity {
         findViewById(R.id.btn_Init).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SerialPortManager.DEBUG = true;
-                serialMaster.initSerial();
+                serialMaster.setDebug(true);
+                serialMaster.startSerial();
             }
         });
 
@@ -66,7 +66,7 @@ public class ModbusActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        serialMaster.getSerialWrapper().close();
+        serialMaster.stopSerial();
     }
 
 

@@ -1,5 +1,7 @@
 package com.boylab.example.modbus;
 
+import android.util.Log;
+
 import com.serotonin.modbus4j.ModbusFactory;
 import com.serotonin.modbus4j.ModbusMaster;
 import com.serotonin.modbus4j.exception.ModbusTransportException;
@@ -20,10 +22,15 @@ import com.serotonin.modbus4j.msg.WriteRegisterResponse;
 import com.serotonin.modbus4j.msg.WriteRegistersRequest;
 import com.serotonin.modbus4j.msg.WriteRegistersResponse;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import android_serialport_api.SerialPortManager;
+
 public class SerialMaster {
 
     private ModbusMaster rtuMaster;
     private SerialWrapper serialWrapper;
+    private AtomicBoolean isWrapperOpen = new AtomicBoolean(false);
 
     private static SerialMaster instance;
 
@@ -38,25 +45,41 @@ public class SerialMaster {
 
     }
 
-    public SerialWrapper getSerialWrapper() {
-        return serialWrapper;
+    public void setDebug(boolean isDebug) {
+        SerialPortManager.DEBUG = isDebug;
     }
 
-    public void initSerial(){
-        try {
-            serialWrapper = new SerialWrapper();
-            serialWrapper.open();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void startSerial(){
+        if (isWrapperOpen.get()){
+            if (SerialPortManager.DEBUG){
+                Log.i("___boylab>>>___", "防止重复开启modbus");
+            }
+            return;
         }
         try {
+            if (serialWrapper == null){
+                serialWrapper = new SerialWrapper();
+            }
             ModbusFactory modbusFactory = new ModbusFactory();
             rtuMaster = modbusFactory.createRtuMaster(serialWrapper);
             rtuMaster.setTimeout(500);
             rtuMaster.setRetries(0);
             rtuMaster.init();
+
+            isWrapperOpen.set(true);
         } catch (Exception e) {
             e.printStackTrace();
+            isWrapperOpen.set(false);
+            if (SerialPortManager.DEBUG){
+                Log.i("___boylab>>>___", "modbus开启异常" + e.getMessage());
+            }
+        }
+    }
+
+    public void stopSerial(){
+        if (serialWrapper != null){
+            serialWrapper.close();
+            isWrapperOpen.set(false);
         }
     }
 
