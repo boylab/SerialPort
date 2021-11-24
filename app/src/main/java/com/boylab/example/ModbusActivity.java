@@ -44,11 +44,12 @@ public class ModbusActivity extends AppCompatActivity {
                     return;
                 }
                 byte[] data = registersResponse.getData();
-                if (data != null)
+                if (data != null){
                     for (int i = 0; i < data.length; i++) {
                         text_Receive.append(" ");
                         text_Receive.append(String.format("%2x", data[i]));
                     }
+                }
             }
         });
     }
