@@ -39,7 +39,7 @@ public abstract class AbsLoopThread implements Runnable {
             isShutdown = false;
             beforeLoop();
             while (!isStop) {
-                Thread.sleep(100);
+                Thread.sleep(50);
                 this.runInLoopThread();
                 loopTimes++;
             }
