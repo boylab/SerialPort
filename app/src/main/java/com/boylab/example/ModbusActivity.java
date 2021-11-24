@@ -38,27 +38,17 @@ public class ModbusActivity extends AppCompatActivity {
         findViewById(R.id.btn_ReadWeigh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ReadInputRegistersResponse registersResponse = serialMaster.readInputRegisters(1, 0, 2);
-                        if (registersResponse == null){
-                            Log.i("___boylab>>>___", "run: 收到空");
-                            return;
-                        }
-                        byte[] data = registersResponse.getData();
-                        if (data == null)
-                            text_Receive.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    for (int i = 0; i < data.length; i++) {
-                                        text_Receive.append(" ");
-                                        text_Receive.append(String.format("%2x", data[i]));
-                                    }
-                                }
-                            }, 0);
+                ReadInputRegistersResponse registersResponse = serialMaster.readInputRegisters(1, 0, 2);
+                if (registersResponse == null){
+                    Log.i("___boylab>>>___", "run: 收到空");
+                    return;
+                }
+                byte[] data = registersResponse.getData();
+                if (data != null)
+                    for (int i = 0; i < data.length; i++) {
+                        text_Receive.append(" ");
+                        text_Receive.append(String.format("%2x", data[i]));
                     }
-                }).start();
             }
         });
     }
