@@ -27,6 +27,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     task makeJar(type: Copy) {
         //删除存在的
         delete 'build/libs/myjar.jar'
